@@ -21,3 +21,41 @@ Case 1:         Normal Case	Alice (80), Bob (72), Charlie (90), David (65), Eve 
 Case 2:         All Below 75%	Bob (70), David (60), Frank (65)	                               No output (Empty List)
 Case 3:         Same Marks	Alice (80), Bob (80), Charlie (85)                                 Charlie, Alice, Bob (Sorted by marks, then by name)
 Case 4:         Single Student Above 75%	Alice (60), Bob (50), Charlie (90)	                 Charlie (Only one student)
+                                     CODE
+                                                                                                          
+import java.util.*;
+import java.util.stream.*;
+
+class Student {
+    String name;
+    double marks;
+
+    public Student(String name, double marks) {
+        this.name = name;
+        this.marks = marks;
+    }
+
+    public void display() {
+        System.out.println(name + " (" + marks + ")");
+    }
+}
+
+public class StudentFilterSort {
+    public static void main(String[] args) {
+        List<Student> students = Arrays.asList(
+            new Student("Alice", 80),
+            new Student("Bob", 72),
+            new Student("Charlie", 90),
+            new Student("David", 65),
+            new Student("Eve", 85)
+        );
+
+        List<Student> filteredStudents = students.stream()
+            .filter(s -> s.marks > 75)
+            .sorted(Comparator.comparingDouble((Student s) -> s.marks).reversed().thenComparing(s -> s.name))
+            .collect(Collectors.toList());
+
+        filteredStudents.forEach(Student::display);
+    }
+}
+

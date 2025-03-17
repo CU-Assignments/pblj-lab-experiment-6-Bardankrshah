@@ -26,3 +26,63 @@ Case 2:       Sorting by Age	Alice (30, 50000), Bob (25, 60000), Charlie (35, 55
 Case 3:       Sorting by Salary	Alice (30, 50000), Bob (25, 60000), Charlie (35, 55000)              	    Bob, Charlie, Alice (sorted by salary in descending order)
 Case 4:       Edge Case - Same Name, Different Age	Alex (28, 45000), Alex (32, 47000), Alex (25, 46000)	Sorted by age (25 → 28 → 32)
 Case 5:       Edge Case - Same Salary	David (29, 50000), Eve (31, 50000), Frank (27, 50000)	              Sorted by name if salary is the same
+  
+                                                                  CODE
+  import java.util.*;
+
+class Employee {
+    String name;
+    int age;
+    double salary;
+
+    public Employee(String name, int age, double salary) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+    }
+
+    public void display() {
+        System.out.println(name + " (" + age + ", " + salary + ")");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        List<Employee> employees = new ArrayList<>();
+
+        employees.add(new Employee("Alice", 30, 50000));
+        employees.add(new Employee("Bob", 25, 60000));
+        employees.add(new Employee("Charlie", 35, 55000));
+
+        System.out.println("Sorting by Name:");
+        employees.sort(Comparator.comparing(e -> e.name));
+        employees.forEach(Employee::display);
+
+        System.out.println("\nSorting by Age:");
+        employees.sort(Comparator.comparingInt(e -> e.age));
+        employees.forEach(Employee::display);
+
+        System.out.println("\nSorting by Salary:");
+        employees.sort((e1, e2) -> Double.compare(e2.salary, e1.salary));
+        employees.forEach(Employee::display);
+
+        System.out.println("\nEdge Case - Same Name, Different Age:");
+        List<Employee> sameName = Arrays.asList(
+            new Employee("Alex", 28, 45000),
+            new Employee("Alex", 32, 47000),
+            new Employee("Alex", 25, 46000)
+        );
+        sameName.sort(Comparator.comparingInt(e -> e.age));
+        sameName.forEach(Employee::display);
+
+        System.out.println("\nEdge Case - Same Salary:");
+        List<Employee> sameSalary = Arrays.asList(
+            new Employee("David", 29, 50000),
+            new Employee("Eve", 31, 50000),
+            new Employee("Frank", 27, 50000)
+        );
+        sameSalary.sort(Comparator.comparing(e -> e.name));
+        sameSalary.forEach(Employee::display);
+    }
+}
+
